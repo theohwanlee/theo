@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Proposal</title>
+    <style>
+        body {
+            background-color: #E6E6FA; /* Light purple background */
+            color: black;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 800px; /* Increased max-width */
+            text-align: center;
+            padding: 40px; /* Increased padding */
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .message {
+            font-size: 2em; /* Increased font size */
+            margin-bottom: 10px;
+            white-space: nowrap; /* Ensure the question is on one line */
+        }
+
+        .sub-message {
+            font-size: 1em; /* Smaller font size for sub-message */
+            margin-bottom: 20px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px; /* Adjusted gap */
+            position: relative;
+        }
+
+        .button {
+            padding: 15px 30px; /* Increased padding */
+            font-size: 1.2em; /* Increased font size */
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            font-family: 'Courier New', Courier, monospace; /* Matching font family */
+        }
+
+        .yes-button {
+            background-color: #90EE90; /* Light green */
+        }
+
+        .no-button {
+            background-color: #FF6347; /* Tomato */
+        }
+
+        .big-message {
+            font-size: 3.5em; /* Bigger font size */
+            color: black;
+        }
+
+        .typewriter {
+            font-size: 1.5em;
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: .15em solid black;
+            animation: blink-caret .75s step-end infinite;
+        }
+
+        .small-typewriter {
+            font-size: 1em; /* Smaller font size */
+            white-space: nowrap;
+            overflow: hidden;
+            border-right: .15em solid black;
+            animation: blink-caret .75s step-end infinite;
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: black; }
+        }
+
+        #typewriter-container {
+            margin-top: 20px; /* Adjust this value to move the text lower */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="message"><strong>will u be my valentine bbg?</strong></div>
+        <div class="sub-message">(u have no choice btw)</div>
+        <div class="buttons">
+            <button class="button yes-button" onclick="handleYes()">Yes</button>
+            <button class="button no-button" onclick="handleNo()">No</button>
+        </div>
+    </div>
+    <div id="typewriter-container"></div>
+    <script>
+        let noClickCount = 0;
+
+        function handleYes() {
+            document.body.innerHTML = '<div class="big-message">awesomesauce :)</div>';
+        }
+
+        function handleNo() {
+            noClickCount++;
+            const noButton = document.querySelector('.no-button');
+            const container = document.querySelector('.container');
+            const containerRect = container.getBoundingClientRect();
+            const buttonWidth = noButton.offsetWidth;
+            const buttonHeight = noButton.offsetHeight;
+            const x = Math.random() * (containerRect.width - buttonWidth);
+            const y = Math.random() * (containerRect.height - buttonHeight);
+            noButton.style.position = 'absolute';
+            noButton.style.left = `${x}px`;
+            noButton.style.top = `${y}px`;
+
+            if (noClickCount >= 3 && noClickCount < 6) {
+                noButton.textContent = 'Are you sure?';
+            } else if (noClickCount >= 6 && noClickCount < 9) {
+                noButton.textContent = 'Pretty please?';
+            } else if (noClickCount >= 9) {
+                noButton.style.display = 'none';
+                setTimeout(() => {
+                    typeWriterEffect("Looks like you have to say yes now...", () => {
+                        typeWriterEffect("(im in ur walls)", null, 'small-typewriter');
+                    });
+                }, 2000); // 2-second delay
+            }
+        }
+
+        function typeWriterEffect(text, callback, className = 'typewriter') {
+            const container = document.getElementById('typewriter-container');
+            container.classList.add(className);
+            let i = 0;
+            function type() {
+                if (i < text.length) {
+                    container.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, 100);
+                } else if (callback) {
+                    setTimeout(callback, 1000); // 1-second delay before calling the callback
+                }
+            }
+            type();
+        }
+    </script>
+</body>
+</html>
